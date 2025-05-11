@@ -1,21 +1,37 @@
 import '@/styles/globals.css';
+import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
-import { WagmiConfig, createConfig } from 'wagmi';
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { mainnet, goerli } from 'wagmi/chains';
+import { publicProvider } from 'wagmi/providers/public';
 
-const config = createConfig(
-  getDefaultConfig({
-    appName: 'NFT Rental Marketplace',
-    projectId: 'YOUR_PROJECT_ID', // Get one from https://cloud.walletconnect.com
-    chains: [mainnet, goerli],
-  })
+const { chains, publicClient } = configureChains(
+  [mainnet, goerli],
+  [publicProvider()]
 );
+
+const { connectors } = getDefaultWallets({
+  appName: 'NFT Rental Marketplace',
+  projectId: 'YOUR_PROJECT_ID',
+  chains
+});
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig config={config}>
-      <Component {...pageProps} />
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains}>
+        <Component {...pageProps} />
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 } 
