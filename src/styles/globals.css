@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap');
+
+@layer base {
+  :root {
+    --background: 225 25% 10%;
+    --foreground: 210 40% 98%;
+    
+    --card: 225 25% 15%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 225 25% 15%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 35 97% 62%;
+    --primary-foreground: 225 25% 10%;
+    
+    --secondary: 225 25% 20%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --accent: 35 97% 62%;
+    --accent-foreground: 225 25% 10%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --muted: 225 25% 20%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --border: 225 25% 25%;
+    --input: 225 25% 25%;
+    --ring: 35 97% 62%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .input-field {
+    @apply w-full border border-secondary bg-secondary/50 p-2 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50;
+  }
+
+  .card {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+  }
+
+  .heading {
+    @apply text-lg font-semibold text-foreground;
+  }
+
+  .subheading {
+    @apply text-lg font-semibold text-foreground/80 mb-2;
+  }
+
+  .input {
+    @apply flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-foreground mb-1.5;
+  }
+
+  .error {
+    @apply text-destructive text-sm mt-2 text-center;
+  }
+
+  .success {
+    @apply text-green-400 text-sm mt-2 text-center;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-primary-foreground shadow hover:bg-primary/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80;
+  }
+  
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+  
+  .btn-outline {
+    @apply border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground;
+  }
+  
+  .btn-destructive {
+    @apply bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90;
+  }
+} 
