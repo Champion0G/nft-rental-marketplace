@@ -2,11 +2,11 @@ import '@/styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
 import {
-  getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { mainnet, goerli } from 'wagmi/chains';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, publicClient } = configureChains(
@@ -14,21 +14,23 @@ const { chains, publicClient } = configureChains(
   [publicProvider()]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: 'NFT Rental Marketplace',
-  projectId: 'YOUR_PROJECT_ID',
-  chains
-});
-
-const wagmiConfig = createConfig({
+const config = createConfig({
   autoConnect: true,
-  connectors,
-  publicClient
+  connectors: [
+    new InjectedConnector({
+      chains,
+      options: {
+        name: 'MetaMask',
+        shimDisconnect: true,
+      },
+    }),
+  ],
+  publicClient,
 });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiConfig config={config}>
       <RainbowKitProvider chains={chains}>
         <Component {...pageProps} />
       </RainbowKitProvider>
